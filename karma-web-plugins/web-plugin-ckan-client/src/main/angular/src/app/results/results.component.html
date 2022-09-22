@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-4">
+
+    <h3>Search</h3>
+    <div *ngIf="displayFreeTextSearch" class="btn disabled">
+      {{displayFreeTextSearch | titlecase }}
+      <button (click)="onFreeTextRemove()" aria-label="Close" class="close " type="button">
+        <span aria-hidden="true"> &times;</span>
+      </button>
+    </div>
+    <div class="card mt-3">
+      <div class="card-body">
+        <app-search (textForSearch)="onSearch($event)"></app-search>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Filters</h3>
+    <div *ngIf="showSpinner; else showFilters" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <ng-template #showFilters>
+      <div *ngFor="let filter of selectedFilters" class="btn disabled">
+        {{filter.display_name}}
+        <button (click)="onFilterRemove(filter)" aria-label="Close" class="close " type="button">
+          <span aria-hidden="true"> &times;</span>
+        </button>
+      </div>
+      <div *ngFor="let filter of allFilters | keyvalue" class="card mt-3">
+        <div class="card-header">
+          <h5>{{filter.key | titlecase}}</h5>
+        </div>
+        <div class="card-body">
+          <div (click)="onFilterSelected(f)" *ngFor="let f of filter.value" class="list-group list-group-flush">
+            <button [ngClass]="{'active': f.activated}" class="list-group-item list-group-item-action filter-item-small"
+                    type="button">
+              {{f.display_name | titlecase}} ({{f.count}})
+            </button>
+          </div>
+        </div><!--End card-body-->
+      </div><!--End card-->
+    </ng-template><!--End ng-template-->
+  </div><!--End column-->
+
+  <div class="col-8">
+    <app-datasets (allFilters)="onResultLoaded($event)" *ngIf="request" [request]="request"></app-datasets>
+  </div><!--End column-->
+
+</div><!--End row-->

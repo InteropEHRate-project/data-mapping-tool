@@ -1,0 +1,122 @@
+<h2 mat-dialog-title>
+  <span> Create new process</span>
+  <button mat-icon-button mat-dialog-close class="mat-icon-button--right">
+    <mat-icon>close</mat-icon>
+  </button>
+  <hr>
+</h2>
+
+<div mat-dialog-content>
+  <mat-vertical-stepper>
+    <mat-step [stepControl]="dataForm">
+      <form [formGroup]="dataForm">
+        <ng-template matStepLabel>Data input</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label>Input Source Type</mat-label>
+          <mat-select formControlName="dataInputSource" (ngModelChange)="sourceTypeChanged($event,this.dataForm)"
+                      required>
+            <mat-option *ngFor="let type of inputSourceType | keyvalue" [value]="type.value">
+              {{type.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <li class="mat-form-field--inline">
+          <mat-form-field appearance="fill">
+            <mat-label>Dataset URL</mat-label>
+            <input matInput type="url" formControlName="url">
+            <button *ngIf="isControlEnabled(this.dataForm,'url')" mat-button matSuffix mat-icon-button
+                    aria-label="Clear"
+                    (click)="resetControlValue(this.dataForm,'url')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Dataset File</mat-label>
+            <ngx-mat-file-input formControlName="file"></ngx-mat-file-input>
+            <button mat-button *ngIf="isControlEnabled(this.dataForm,'file')" matSuffix mat-icon-button
+                    aria-label="Clear"
+                    (click)="resetControlValue(this.dataForm,'file')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </li>
+        <button mat-button color="primary" matStepperNext>
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="modelForm">
+      <form [formGroup]="modelForm">
+        <ng-template matStepLabel>Integration model</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label>Input Source Type</mat-label>
+          <mat-select formControlName="modelInputSource" (ngModelChange)="sourceTypeChanged($event,this.modelForm)"
+                      required>
+            <mat-option *ngFor="let type of inputSourceType | keyvalue" [value]="type.value">
+              {{type.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <li class="mat-form-field--inline">
+          <mat-form-field appearance="fill">
+            <mat-label>Integration Model URL</mat-label>
+            <input matInput type="url" formControlName="url">
+            <button mat-button *ngIf="isControlEnabled(this.modelForm,'url')" matSuffix mat-icon-button
+                    aria-label="Clear"
+                    (click)="resetControlValue(this.modelForm,'url')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Integration Model File</mat-label>
+            <ngx-mat-file-input formControlName="file"></ngx-mat-file-input>
+            <button mat-button *ngIf="isControlEnabled(this.dataForm,'file')" matSuffix mat-icon-button
+                    aria-label="Clear"
+                    (click)="resetControlValue(this.modelForm,'file')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </li>
+        <button mat-button color="primary" matStepperPrevious>
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button mat-button color="primary" matStepperNext>
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="preferencesForm">
+      <form [formGroup]="preferencesForm">
+        <ng-template matStepLabel>Preferences</ng-template>
+        <li class="mat-form-field--inline">
+          <mat-form-field appearance="outline">
+            <mat-label>Input Source Type</mat-label>
+            <mat-select formControlName="contentType" required>
+              <mat-option *ngFor="let type of inputDataFormat | keyvalue" [value]="type.value">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </li>
+        <li class="mat-form-field--inline">
+          <mat-form-field appearance="outline">
+            <mat-label>Input Source Type</mat-label>
+            <mat-select formControlName="outputDataFormat" required>
+              <mat-option *ngFor="let type of outputDataFormat | keyvalue" [value]="type.value">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </li>
+        <button mat-button color="primary" matStepperPrevious>
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+      </form>
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="onSubmit()">Run Process</button>
+      </mat-dialog-actions>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

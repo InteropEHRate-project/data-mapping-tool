@@ -1,0 +1,13 @@
+.filter-item-small {
+  padding: .25rem .5rem !important;
+  font-size: .875rem !important;
+  border-bottom-width: thin !important;
+}
+
+#collapseTags a.collapsed:after {
+  content: '+ Show More';
+}
+
+#collapseTags a:not(.collapsed):after {
+  content: '- Show Less';
+}

@@ -1,0 +1,30 @@
+.download-custom-modal{
+    /*Places modal center of the page*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    padding: 0 !important;
+    /* end */
+}
+
+.more-less {
+    float: right;
+    color: #212121;
+}
+
+#body{
+    overflow-y: auto;
+    height: 80%;
+    max-height: calc(100vh - 210px);
+}
+
+#iFrame-modal-dialog{
+    width: 98%;
+    height: 85%;
+    padding: 0;
+}
+
+

@@ -1,0 +1,84 @@
+<div class="container-fluid bg-info">
+  <div class="container">
+    <div class="d-flex justify-content-end">
+      <a aria-disabled="true" class="btn text-white btn-link btn-sm disabled" href="#" role="button">Login</a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#87CEEB;">
+  <div class="container">
+    <a (click)="reloadHomePage()" class="navbar-brand text-white" href="#">CKAN/DKAN</a>
+    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbar"
+            data-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a id="getAllDatasetsButton" (click)="datasets()" class="nav-link text-white" href="#">Datasets</a>
+        </li>
+        <li class="nav-item">
+          <a aria-disabled="true" class="nav-link text-white disabled" href="#">Organizations</a>
+        </li>
+        <li class="nav-item">
+          <a aria-disabled="true" class="nav-link text-white disabled" href="#">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a aria-disabled="true" class="nav-link text-white disabled" href="#">About</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+  <div class="jumbotron">
+    <div *ngIf="isLoadResults==false; else loadResults" class="row">
+      <div class="col-sm-6">
+        <div class="h-100 card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Top Tags</h5>
+            <div *ngIf="isShowSpinner; else loadPage" class="d-flex justify-content-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <ng-template #loadPage> <!-- show the tags -->
+              <div class="card-text">
+                <button
+                  (click)="getDatasetByTag(tag)"
+                  *ngFor="let tag of topTags"
+                  class="btn btn-outline-info mx-2 my-2"
+                  type="submit">
+                  {{tag.name | titlecase}}
+                </button>
+              </div>
+            </ng-template> <!--END else block -->
+          </div><!--End card-body-->
+        </div><!--End card-->
+      </div><!--End column-->
+      <div class="col-sm-6">
+        <div class="h-100 card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Search Data</h5>
+            <p class="card-text">Search for datasets, catalogs, groups and organizations.</p>
+            <app-search (textForSearch)="onSearch($event)"></app-search>
+          </div><!--End card-body-->
+        </div><!--End card-->
+      </div><!--End column-->
+    </div><!--End If block-->
+    <ng-template #loadResults>
+      <container-element [ngSwitch]="switchCase">
+        <app-results *ngSwitchCase="1" [filterByTag]="filterByTag"></app-results>
+        <app-results *ngSwitchCase="2" [freeTextSearch]="freeTextSearch"></app-results>
+        <app-results *ngSwitchCase="3" [isLoadAllDatasets]="isLoadAllDatasets"></app-results>
+      </container-element>
+    </ng-template> <!--END else block -->
+  </div><!--End Jumbotron-->
+</div><!--End Container-->
+

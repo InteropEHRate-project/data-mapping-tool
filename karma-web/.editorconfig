@@ -1,0 +1,13 @@
+
+# [src/main/webapp/**.css]
+# indent_style = tab
+
+[src/main/webapp/js/{*.cjs,*.js}]
+indent_style = tab
+
+[src/main/webapp/{*.htm,*.html,*.ng,*.sht,*.shtm,*.shtml}]
+indent_style = tab
+
+[src/main/webapp/{*.jsf,*.jsp,*.jspf,*.tag,*.tagf,*.xjsp}]
+indent_style = tab
+

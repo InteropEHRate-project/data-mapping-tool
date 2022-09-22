@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  karma:
+    image: registry.knowdocker-test.disi.unitn.it/starlinker:1.0.0-alpha1
+    build: ./
+    volumes:
+      - "./pyAddons:/root/karma/python"
+    ports:
+      - "127.0.0.1:8080:8080"
+    

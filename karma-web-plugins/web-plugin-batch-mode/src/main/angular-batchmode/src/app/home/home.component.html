@@ -1,0 +1,20 @@
+<mat-toolbar class="mat-elevation-z18" color="primary">
+  <span>Online Batch Mode Scheduler</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="mat-fab--inline" (click)="reloadHomePage()" aria-label="reload home page">
+    <mat-icon>update</mat-icon>
+  </button>
+  <button mat-icon-button (click)="openCreateProcessDialog()" aria-label="create a new batch mode process">
+    <mat-icon>create</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-tab-group [selectedIndex]="selectedIndex">
+  <mat-tab label="Recent History">
+    <app-processes-history></app-processes-history>
+  </mat-tab>
+  <mat-tab label="Active Processes">
+    <app-processes-active (refreshHistory)="onRefreshHistory($event)"></app-processes-active>
+  </mat-tab>
+  <mat-tab label="Scheduled Processes"> Content 2 </mat-tab>
+</mat-tab-group>

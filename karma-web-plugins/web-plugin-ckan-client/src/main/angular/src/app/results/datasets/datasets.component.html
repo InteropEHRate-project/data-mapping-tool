@@ -1,0 +1,71 @@
+<h3>{{request.resultHeader}} ({{numberOfDatasets}})</h3>
+<div *ngIf="showSpinner; else loadData" class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<ng-template #loadData>
+  <div *ngFor="let dataset of resultDatasets; let i = index">
+    <div class="card mt-3">
+      <div class="card-header">
+        <a (click)="dataset.isShowMore=!dataset.isShowMore" aria-expanded="false" data-toggle="collapse"
+           href="#List-{{ i }}"
+           role="button">
+          <svg class="float-right bi bi-arrow-down-up" fill="currentColor" height="1em" viewBox="0 0 16 16" width="1em"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z" fill-rule="evenodd"></path>
+            <path
+              d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"
+              fill-rule="evenodd"></path>
+            <path d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z" fill-rule="evenodd"></path>
+          </svg>
+          <h5>{{dataset.title}}</h5>
+        </a>
+      </div>
+      <div class="card-body text-font-style">
+        <div *ngIf="!dataset.isShowMore && dataset.notes">
+          <b>Note:&nbsp;</b>{{ (dataset.notes.length > 300) ? (dataset.notes | slice:0:300) + '..' : (dataset.notes) }}
+        </div>
+        <ul class="list-group panel-collapse collapse" id="List-{{ i }}">
+          <li class="list-group-item list-group-item-secondary"><b>Note:&nbsp;</b>{{dataset.notes}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>ID:&nbsp;</b>{{dataset.id}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>Licence:&nbsp;</b>{{dataset.license_title}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>Url:&nbsp;</b>{{dataset.url}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>Author:&nbsp;</b>{{dataset.author}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>Type:&nbsp;</b>{{dataset.type}}</li>
+          <li class="list-group-item list-group-item-secondary"><b>Resources:</b>
+            <ul *ngFor="let resource of dataset.resources; let j = index" class="list-group">
+              <li class="list-group-item list-group-item-dark">
+                <input [(ngModel)]="resource.selectedForImport" type="checkbox">
+                Selected for Import
+              </li>
+              <li class="list-group-item list-group-item-dark"><b>ID:&nbsp;</b>{{resource.id}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Name:&nbsp;</b>{{resource.name}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Created:&nbsp;</b>{{resource.created}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Description:&nbsp;</b>{{resource.description}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Url:&nbsp;</b>{{resource.url}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Format:&nbsp;</b>{{resource.format}}</li>
+              <li class="list-group-item list-group-item-dark"><b>Size:&nbsp;</b>{{resource.size | fileSize}}</li>
+              <hr>
+            </ul>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-end">
+          <button (click)="importCatalog(dataset)" class="btn btn-primary"
+                  type="submit">Import
+          </button>
+        </div>
+      </div><!--End card-body-->
+    </div><!--End card-->
+  </div><!--End ngFor-->
+  <ngb-pagination
+    (pageChange)="loadNewPage($event)"
+    [(page)]="page"
+    [boundaryLinks]="true"
+    [collectionSize]="numberOfDatasets"
+    [maxSize]="5"
+    [pageSize]="pageSize"
+    class="d-flex justify-content-center mt-3"
+    size="sm">
+  </ngb-pagination>
+</ng-template>
